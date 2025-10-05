@@ -12,18 +12,30 @@ inp.on("line", (data) => {
 });
 
 function isPairExists(numbers, n, k) {
-    // two pointers technique
-    let start = 0;
-    let end = n - 1;
+    // hashing technique
+    let hashTable = {};
 
-    while (start < end) {
-        if (numbers[start] + numbers[end] === k) {
-            return true;
-        } else if (numbers[start] + numbers[end] < k) {
-            start++;
-        } else if (numbers[start] + numbers[end] > k) {
-            end--;
+    /*
+        hashTable = {
+            4: true,
+            5: true,
+            12: true,
+            2: true,
         }
+    */
+
+    // iterate the numbers array
+    for (let i = 0; i < n; i++) {
+        // for every element, find the difference
+        let diff = k - numbers[i]; // 11 - 7 = 4
+
+        // check if the element diff exists in hash table
+        if (hashTable[diff]) {
+            return true;
+        }
+
+        // create an entry to the hash table
+        hashTable[numbers[i]] = true;
     }
 
     return false;
