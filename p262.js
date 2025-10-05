@@ -12,18 +12,20 @@ inp.on("line", (data) => {
 });
 
 function isPairExists(numbers, n, k) {
-    // brute force technique
-    // generate all the possible pairs
-    for (let i = 0; i < n - 1; i++) {
-        // for every element at index i
-        for (let j = i + 1; j < n; j++) {
-            if (numbers[i] + numbers[j] === k) {
-                return true;
-            }
+    // two pointers technique
+    let start = 0;
+    let end = n - 1;
+
+    while (start < end) {
+        if (numbers[start] + numbers[end] === k) {
+            return true;
+        } else if (numbers[start] + numbers[end] < k) {
+            start++;
+        } else if (numbers[start] + numbers[end] > k) {
+            end--;
         }
     }
 
-    // escaped from return true will alone reach here
     return false;
 }
 
