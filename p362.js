@@ -11,20 +11,38 @@ inp.on("line", (data) => {
     userInput.push(data);
 });
 
-function isUnique(s) {
-    return new Set(s.split('')).size === s.length;
-}
-
 inp.on("close", () => {
     let s = userInput[0];
     let maxLength = 0;
 
-    // generate all the possible substrings
-    for (let i = 0; i < s.length + 1; i++) {
-        for (let j = i; j < s.length + 1; j++) {
-            if (isUnique(s.substring(i, j))) {
-                maxLength = Math.max(s.substring(i, j).length, maxLength);
+    let start = 0;
+    let end = -1;
+
+    let set = new Set();
+
+    while (end < s.length - 1) {
+        // include the next character
+        end++;
+
+        // check if we can include the next character
+        if (!set.has(s[end])) {
+            // create an entry into the set
+            set.add(s[end]);
+
+            // update the maxLength
+            maxLength = Math.max(maxLength, set.size);
+        } else {
+            // we cannot include the next character
+            // iterate the start pointer until we can include the next character
+            while (set.has(s[end])) {
+                // remove the start character from the set
+                set.delete(s[start]);
+
+                // update the starting index
+                start++;
             }
+
+            end--;
         }
     }
 
